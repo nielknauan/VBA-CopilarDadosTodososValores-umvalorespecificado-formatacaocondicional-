@@ -1,0 +1,1 @@
+# Sub-CopilarDadosTodososValores-umvalorespecificado-formatacaocondicional-
