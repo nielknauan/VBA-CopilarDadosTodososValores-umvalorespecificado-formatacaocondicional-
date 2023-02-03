@@ -1,0 +1,59 @@
+'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+    'Desenvolvido por: Nielk Nauan
+    'Nome da Macro: Sub CopilarDadosTodososValores-umvalorespecificado+formatacaocondicional()
+    'Função da Macro: Copilar e filtra um dado com um determinado valor.
+'HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+
+Sub CopilarDadosTirandoUmValor()
+
+Dim LastRow As Long
+Dim i As Long
+Dim flag As Boolean
+Dim rangeToMerge As String
+
+Sheets("Planilha3").Select
+Range("A1").Activate
+
+LastRow = Sheets("Base").Cells(Sheets("Base").Rows.Count, "F").End(xlUp).Row
+
+For i = 2 To LastRow
+If Sheets("Base").Cells(i, 6).Value <> "DESCONSOLIDAÇÃO(FRETE)" Then
+Sheets("Base").Rows(i).Copy
+lastRowDestino = Sheets("Planilha3").Cells(Sheets("Planilha3").Rows.Count, "A").End(xlUp).Row + 1
+Sheets("Planilha3").Rows(lastRowDestino).PasteSpecial
+flag = True
+End If
+If i = LastRow And flag = True Then
+Exit For
+End If
+Next i
+
+LastRow = ActiveSheet.Cells(ActiveSheet.Rows.Count, 1).End(xlUp).Row
+rangeToMerge = "A" & LastRow + 1 & ":M" & LastRow + 1
+
+With ActiveSheet.Range(rangeToMerge)
+.HorizontalAlignment = xlCenter
+.VerticalAlignment = xlCenter
+.WrapText = False
+.Orientation = 0
+.AddIndent = False
+.IndentLevel = 0
+.ShrinkToFit = False
+.ReadingOrder = xlContext
+.MergeCells = False
+End With
+
+With ActiveSheet.Range(rangeToMerge).Interior
+.Pattern = xlGray75
+.PatternColorIndex = xlAutomatic
+.ColorIndex = xlAutomatic
+.TintAndShade = 0
+.PatternTintAndShade = 0
+End With
+
+ActiveSheet.Range(rangeToMerge).Merge
+
+Sheets("Base").Select
+Range("A1").Activate
+End Sub
+
